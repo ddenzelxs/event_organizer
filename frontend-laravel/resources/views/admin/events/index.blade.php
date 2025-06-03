@@ -38,6 +38,8 @@
                                     {{ $event['status'] ? 'Nonaktifkan' : 'Aktifkan' }}
                                 </button>
                             </form>
+                            <a href="{{ route('admin.sessions.index', $event['id']) }}" class="btn btn-sm btn-info">Lihat
+                                Sesi</a>
                         </td>
                     </tr>
                 @endforeach
