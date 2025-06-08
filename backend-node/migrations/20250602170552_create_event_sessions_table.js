@@ -1,7 +1,7 @@
 exports.up = function (knex) {
   return knex.schema.createTable('event_sessions', (table) => {
     table.increments('id').primary();
-    table.integer('event_id').unsigned().notNullable().references('id').inTable('events').onDelete('CASCADE');
+    table.integer('event_id').unsigned().nullable();
     table.string('name', 100).notNullable();
     table.date('session_date').notNullable();
     table.time('session_time').notNullable();
@@ -12,7 +12,6 @@ exports.up = function (knex) {
     table.timestamp('updated_at').defaultTo(knex.fn.now());
   });
 };
-
 exports.down = function (knex) {
   return knex.schema.dropTableIfExists('event_sessions');
 };

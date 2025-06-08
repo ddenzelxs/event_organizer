@@ -4,7 +4,6 @@ exports.up = function (knex) {
     table.string('name', 20).notNullable();
   });
 };
-
 exports.down = function (knex) {
   return knex.schema.dropTableIfExists('role');
 };

@@ -8,12 +8,13 @@ exports.up = function (knex) {
     table.string('poster_url', 255);
     table.decimal('price', 10, 2).defaultTo(0);
     table.integer('max_participants');
+    table.integer('status').notNullable();
+    table.integer('managed_by').unsigned().nullable();
+    table.integer('created_by').unsigned().nullable();
     table.timestamp('created_at').defaultTo(knex.fn.now());
     table.timestamp('updated_at').defaultTo(knex.fn.now());
-    table.integer('status').notNullable();
   });
 };
-
 exports.down = function (knex) {
   return knex.schema.dropTableIfExists('events');
 };
