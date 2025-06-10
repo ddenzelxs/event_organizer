@@ -4,15 +4,19 @@
     <div class="container">
         <h1>{{ $event ? 'Edit' : 'Tambah' }} Event</h1>
 
-        <form method="POST" action="{{ $event ? route('admin.events.update', $event['id']) : route('admin.events.store') }}">
+        <form method="POST" action="{{ $event ? route('admin.events.update', $event['id']) : route('admin.events.store') }}"
+            enctype="multipart/form-data">
             @csrf
             @if ($event)
                 @method('PUT')
             @endif
 
+            {{-- <input type="hidden" name="created_by" value="{{ session('user')['id'] }}"> --}}
+
             <div class="mb-3">
                 <label>Nama Event</label>
-                <input type="text" name="name" class="form-control" value="{{ $event['name'] ?? old('name') }}" required>
+                <input type="text" name="name" class="form-control" value="{{ $event['name'] ?? old('name') }}"
+                    required>
             </div>
 
             <div class="mb-3">
@@ -34,9 +38,12 @@
             </div>
 
             <div class="mb-3">
-                <label>Poster URL</label>
-                <input type="text" name="poster_url" class="form-control"
-                    value="{{ $event['poster_url'] ?? old('poster_url') }}">
+                <label>Poster (Upload Gambar)</label>
+                <input type="file" name="poster" class="form-control">
+                @if (!empty($event['poster_url']))
+                    <img src="{{ env('BASE_API') . $event['poster_url'] }}" alt="Poster" class="img-thumbnail mt-2"
+                        style="max-width: 200px;">
+                @endif
             </div>
 
             <div class="mb-3">
@@ -57,6 +64,19 @@
                     </option>
                     <option value="0" {{ isset($event['status']) && $event['status'] == 0 ? 'selected' : '' }}>
                         Nonaktif</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Panitia (Managed By)</label>
+                <select name="managed_by" class="form-control" required>
+                    <option value="">-- Pilih Panitia --</option>
+                    @foreach ($panitia as $user)
+                        <option value="{{ $user['name'] }}"
+                            {{ isset($event['managed_by']) && $event['managed_by'] == $user['id'] ? 'selected' : '' }}>
+                            {{ $user['name'] }}
+                        </option>
+                    @endforeach
                 </select>
             </div>
 
