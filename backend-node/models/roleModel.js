@@ -1,9 +1,9 @@
-const db = require('../database/database')
+const dbPool = require('../database/database')
 
 const getAllRole = async() => {
     const query = `
     SELECT * FROM role`;
-    return db.execute(query)
+    return dbPool.execute(query)
 }
 
 const insertRole = async (nama_role) => {

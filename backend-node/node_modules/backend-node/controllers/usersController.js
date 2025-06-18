@@ -1,42 +1,45 @@
-const { findAllUsers, findUsersByRole, insertUser, updateUser } = require('../models/usersModel')
+const {
+  findAllUsers, findUsersByRole, insertUser, updateUser} = require('../models/usersModel');
 
-const getAllUsers = async (req, res) => {
-    try {
-        const [data] = await findAllUsers();
-        res.json(data);
-    } catch (error) {
-        res.status(500).json({
-            message: "Server Error",
-            serverMessage: error,
-        });
-    }
+const getAll = async (req, res) => {
+  try {
+    const [users] = await findAllUsers();
+    res.json({ message: 'GET all users success', data: users });
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error', serverMessage: error.message });
+  }
 };
 
-const getUsersByRole = async (req, res) => {
-    const role = req.params.role_id;
-    console.log('role:', role)
-    try {
-        const [data] = await findUsersByRole(role);
-        if (data.length < 1) {
-            return res.status(404).json({
-                message: "Role tidak ditemukan",
-            });
-        }
-        console.log('dapat')
-        res.json({
-            message: "GET User by role success",
-            data: data,
-        });
-    } catch (error) {
-        
-        res.status(500).json({
-            message: "Server Error",
-            serverMessage: error,
-        });
-    }
+const getByRole = async (req, res) => {
+  try {
+    const [users] = await findUsersByRole(req.params.role_id);
+    res.json({ message: 'GET users by role success', data: users });
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error', serverMessage: error.message });
+  }
+};
+
+const create = async (req, res) => {
+  try {
+    await insertUser(req.body);
+    res.status(201).json({ message: 'CREATE user success' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error', serverMessage: error.message });
+  }
+};
+
+const update = async (req, res) => {
+  try {
+    await updateUser(req.params.id, req.body);
+    res.json({ message: 'UPDATE user success' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error', serverMessage: error.message });
+  }
 };
 
 module.exports = {
-    getAllUsers,
-    getUsersByRole
-}
+  getAll,
+  getByRole,
+  create,
+  update
+};

@@ -1,6 +1,6 @@
 const { getAllRole, insertRole, updateRole, deleteRole } = require("../models/roleModel");
 
-const getAllRole = async (req, res) => {
+const getAll = async (req, res) => {
   try {
     const [roles] = await getAllRole();
     res.json({
@@ -62,7 +62,7 @@ const deleteRoleById = async (req, res) => {
 };
 
 module.exports = {
-  getAllRole,
+  getAll,
   createRole,
   editRoleById,
   deleteRoleById,

@@ -1,62 +1,54 @@
-const Event = require('../models/eventsModel');
+const {getAllEvents, getEventById, createEvent, updateEvent, deleteEvent} = require('../models/eventsModel');
 
-exports.getAllEvents = async (req, res) => {
+const getAll = async (req, res) => {
   try {
-    const events = await Event.getAll();
-    res.json(events);
-  } catch (err) {
-    res.status(500).json({ message: 'Gagal mengambil event', error: err.message });
+    const [events] = await getAllEvents();
+    res.json({ message: 'GET all events success', data: events });
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error', serverMessage: error.message });
   }
 };
 
-exports.createEvent = async (req, res) => {
-  const {
-    name, date, time, location,
-    price, max_participants, status,
-    managed_by, created_by
-  } = req.body;
-
-  const poster_url = req.file ? `/uploads/posters/${req.file.filename}` : null;
-
+const getById = async (req, res) => {
   try {
-    const [id] = await Event.create({
-      name, date, time, location,
-      price, max_participants, status,
-      managed_by, created_by, poster_url
-    });
-
-    res.status(201).json({ message: 'Event berhasil ditambahkan', id });
-  } catch (err) {
-    res.status(500).json({ message: 'Gagal menambah event', error: err.message });
+    const [event] = await getEventById(req.params.id);
+    res.json({ message: 'GET event by ID success', data: event[0] });
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error', serverMessage: error.message });
   }
 };
 
-exports.updateEvent = async (req, res) => {
+const create = async (req, res) => {
   try {
-    const updated = await Event.update(req.params.id, {
-      ...req.body,
-      updated_at: new Date()
-    });
-
-    if (!updated) return res.status(404).json({ message: 'Event tidak ditemukan' });
-
-    res.json({ message: 'Event berhasil diperbarui' });
-  } catch (err) {
-    res.status(500).json({ message: 'Gagal update event', error: err.message });
+    await createEvent(req.body);
+    res.status(201).json({ message: 'CREATE event success' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error', serverMessage: error.message });
   }
 };
 
-exports.toggleEventStatus = async (req, res) => {
+const update = async (req, res) => {
   try {
-    const event = await Event.getById(req.params.id);
-    if (!event) {
-      return res.status(404).json({ message: 'Event tidak ditemukan' });
-    }
-
-    await Event.toggleStatus(req.params.id, event.status);
-
-    res.json({ message: `Event berhasil di-${event.status === 1 ? 'nonaktifkan' : 'aktifkan'}` });
-  } catch (err) {
-    res.status(500).json({ message: 'Gagal mengubah status event', error: err.message });
+    await updateEvent(req.params.id, req.body);
+    res.json({ message: 'UPDATE event success' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error', serverMessage: error.message });
   }
+};
+
+const deleteById = async (req, res) => {
+  try {
+    await deleteEvent(req.params.id);
+    res.json({ message: 'DELETE event success' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error', serverMessage: error.message });
+  }
+};
+
+module.exports = {
+  getAll,
+  getById,
+  create,
+  update,
+  deleteById
 };
