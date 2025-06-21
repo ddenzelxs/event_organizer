@@ -1,5 +1,5 @@
 const {
-  getAllCertificates, getCertificateById, insertCertificate, deleteCertificate} = require('../models/certificationModel');
+  getAllCertificates, getCertificateById, insertCertificate, deleteCertificate} = require('../models/certificatesModel');
 
 const getAll = async (req, res) => {
   try {

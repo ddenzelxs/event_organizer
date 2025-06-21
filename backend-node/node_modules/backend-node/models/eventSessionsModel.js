@@ -12,22 +12,43 @@ const getSessionById = async (id) => {
 
 const insertSession = async (data) => {
   const query = `
-    INSERT INTO event_sessions (event_id, name, session_date, session_time, speaker, location, max_participants)
-    VALUES (?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO event_sessions (event_id, name, session_date, session_time, speaker, price, location, max_participants, created_at, updated_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
   `;
-  const values = [data.event_id, data.name, data.session_date, data.session_time, data.speaker, data.location, data.max_participants];
+  const values = [
+    data.event_id || null,
+    data.name,
+    data.session_date,
+    data.session_time,
+    data.speaker,
+    data.price || 0,
+    data.location || null,
+    data.max_participants || null
+  ];
   return db.execute(query, values);
 };
+
 
 const updateSession = async (id, data) => {
   const query = `
     UPDATE event_sessions
-    SET event_id = ?, name = ?, session_date = ?, session_time = ?, speaker = ?, location = ?, max_participants = ?
+    SET event_id = ?, name = ?, session_date = ?, session_time = ?, speaker = ?, price = ?, location = ?, max_participants = ?, updated_at = NOW()
     WHERE id = ?
   `;
-  const values = [data.event_id, data.name, data.session_date, data.session_time, data.speaker, data.location, data.max_participants, id];
+  const values = [
+    data.event_id || null,
+    data.name,
+    data.session_date,
+    data.session_time,
+    data.speaker,
+    data.price || 0,
+    data.location || null,
+    data.max_participants || null,
+    id
+  ];
   return db.execute(query, values);
 };
+
 
 const deleteSession = async (id) => {
   const query = 'DELETE FROM event_sessions WHERE id = ?';

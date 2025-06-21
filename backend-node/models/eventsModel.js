@@ -12,31 +12,36 @@ const getEventById = async (id) => {
 
 const createEvent = async (data) => {
   const query = `
-    INSERT INTO events (title, description, date, location, created_by, managed_by, poster)
-    VALUES (?, ?, ?, ?, ?, ?, ?)`;
+    INSERT INTO events (name, date, time, location, poster_url, status, managed_by, created_by, created_at, updated_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+  `;
   const values = [
-    data.title,
-    data.description,
+    data.name,
     data.date,
+    data.time,
     data.location,
-    data.created_by,
-    data.managed_by,
-    data.poster
+    data.poster_url || null,
+    data.status,
+    data.managed_by || null,
+    data.created_by || null
   ];
   return db.execute(query, values);
 };
 
 const updateEvent = async (id, data) => {
   const query = `
-    UPDATE events SET title = ?, description = ?, date = ?, location = ?, managed_by = ?, poster = ?
-    WHERE id = ?`;
+    UPDATE events
+    SET name = ?, date = ?, time = ?, location = ?, poster_url = ?, status = ?, managed_by = ?, updated_at = NOW()
+    WHERE id = ?
+  `;
   const values = [
-    data.title,
-    data.description,
+    data.name,
     data.date,
+    data.time,
     data.location,
-    data.managed_by,
-    data.poster,
+    data.poster_url || null,
+    data.status,
+    data.managed_by || null,
     id
   ];
   return db.execute(query, values);

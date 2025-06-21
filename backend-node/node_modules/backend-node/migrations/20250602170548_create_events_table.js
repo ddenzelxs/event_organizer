@@ -6,8 +6,6 @@ exports.up = function (knex) {
     table.time('time').notNullable();
     table.string('location', 200);
     table.string('poster_url', 255);
-    table.decimal('price', 10, 2).defaultTo(0);
-    table.integer('max_participants');
     table.integer('status').notNullable();
     table.integer('managed_by').unsigned().nullable();
     table.integer('created_by').unsigned().nullable();

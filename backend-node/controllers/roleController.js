@@ -1,4 +1,4 @@
-const { getAllRole, insertRole, updateRole, deleteRole } = require("../models/roleModel");
+const { getAllRole, getRoleById, insertRole, updateRole, deleteRole } = require("../models/roleModel");
 
 const getAll = async (req, res) => {
   try {
@@ -12,6 +12,15 @@ const getAll = async (req, res) => {
       message: "Server Error",
       serverMessage: error,
     });
+  }
+};
+
+const getById = async (req, res) => {
+  try {
+    const [roles] = await getRoleById(req.params.id);
+    res.json({ message: 'GET role by ID success', data: roles });
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error', serverMessage: error });
   }
 };
 
@@ -63,6 +72,7 @@ const deleteRoleById = async (req, res) => {
 
 module.exports = {
   getAll,
+  getById,
   createRole,
   editRoleById,
   deleteRoleById,

@@ -2,10 +2,11 @@ const db = require('../database/database');
 
 const getAllRegistrations = async () => {
   const query = `
-    SELECT r.*, u.name as user_name, e.name as event_name
+    SELECT r.*, u.name as user_name, s.name as session_name, e.name
     FROM registrations r
-    JOIN user u ON r.user_id = u.username
-    JOIN events e ON r.event_id = e.id
+    JOIN users u ON r.user_id = u.id
+    JOIN event_sessions s ON s.id = r.id
+    JOIN events e ON e.id = s.event_id
   `;
   return db.execute(query);
 };
@@ -17,7 +18,7 @@ const getRegistrationById = async (id) => {
 
 const insertRegistration = async (data) => {
   const query = `
-    INSERT INTO registrations (user_id, event_id, registered_at, attendance)
+    INSERT INTO registrations (user_id, session_id, registered_at, attendance)
     VALUES (?, ?, ?, ?)
   `;
   const values = [data.user_id, data.event_id, data.registered_at, data.attendance || false];
