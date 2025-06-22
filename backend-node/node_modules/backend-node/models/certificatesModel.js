@@ -2,31 +2,36 @@ const db = require('../database/database');
 
 const getAllCertificates = async () => {
   const query = `
-    SELECT c.*, r.user_id, r.event_id, e.name AS event_name, u.name AS user_name
-    FROM certificates c
-    JOIN registrations r ON c.registration_id = r.id
-    JOIN user u ON r.user_id = u.username
-    JOIN events e ON r.event_id = e.id
+    SELECT certificates.*, registrations.*, event_sessions.*, events.*, users.*
+    FROM certificates 
+    JOIN registrations ON certificates.regist_id = registrations.id 
+    JOIN event_sessions ON registrations.session_id = event_sessions.id 
+    JOIN events ON event_sessions.event_id = events.id
+    JOIN users ON registrations.user_id = users.id
   `;
   return db.execute(query);
 };
 
 const getCertificateById = async (id) => {
   const query = `
-    SELECT c.*, r.user_id, r.event_id
+    SELECT c.*, r.*, s.*, e.*, u.*
     FROM certificates c
-    JOIN registrations r ON c.registration_id = r.id
+    JOIN registrations r ON c.regist_id = r.id 
+    JOIN event_sessions s ON r.session_id = s.id 
+    JOIN events e ON s.event_id = e.id
+    JOIN users u ON r.user_id = u.id
     WHERE c.id = ?
   `;
   return db.execute(query, [id]);
 };
 
-const insertCertificate = async (registration_id, file_path) => {
+
+const insertCertificate = async (regist_id, certificate_url) => {
   const query = `
-    INSERT INTO certificates (registration_id, issued_at, file_path)
+    INSERT INTO certificates (regist_id, issued_at, certificate_url)
     VALUES (?, NOW(), ?)
   `;
-  return db.execute(query, [registration_id, file_path]);
+  return db.execute(query, [regist_id, certificate_url]);
 };
 
 const deleteCertificate = async (id) => {

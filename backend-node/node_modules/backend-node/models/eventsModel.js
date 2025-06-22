@@ -12,13 +12,12 @@ const getEventById = async (id) => {
 
 const createEvent = async (data) => {
   const query = `
-    INSERT INTO events (name, date, time, location, poster_url, status, managed_by, created_by, created_at, updated_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+    INSERT INTO events (name, date, location, poster_url, status, managed_by, created_by, created_at, updated_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
   `;
   const values = [
     data.name,
     data.date,
-    data.time,
     data.location,
     data.poster_url || null,
     data.status,
@@ -31,13 +30,12 @@ const createEvent = async (data) => {
 const updateEvent = async (id, data) => {
   const query = `
     UPDATE events
-    SET name = ?, date = ?, time = ?, location = ?, poster_url = ?, status = ?, managed_by = ?, updated_at = NOW()
+    SET name = ?, date = ?, location = ?, poster_url = ?, status = ?, managed_by = ?, updated_at = NOW()
     WHERE id = ?
   `;
   const values = [
     data.name,
     data.date,
-    data.time,
     data.location,
     data.poster_url || null,
     data.status,

@@ -18,20 +18,20 @@ const getRegistrationById = async (id) => {
 
 const insertRegistration = async (data) => {
   const query = `
-    INSERT INTO registrations (user_id, session_id, registered_at, attendance)
+    INSERT INTO registrations (user_id, session_id, registered_at, attendance_status)
     VALUES (?, ?, ?, ?)
   `;
-  const values = [data.user_id, data.event_id, data.registered_at, data.attendance || false];
+  const values = [data.user_id, data.session_id, data.registered_at, data.attendance_status || false];
   return db.execute(query, values);
 };
 
 const updateRegistration = async (id, data) => {
   const query = `
     UPDATE registrations
-    SET user_id = ?, event_id = ?, registered_at = ?, attendance = ?
+    SET user_id = ?, session_id = ?, registered_at = ?, attendance_status = ?
     WHERE id = ?
   `;
-  const values = [data.user_id, data.event_id, data.registered_at, data.attendance, id];
+  const values = [data.user_id, data.session_id, data.registered_at, data.attendance_status, id];
   return db.execute(query, values);
 };
 
@@ -40,9 +40,8 @@ const deleteRegistration = async (id) => {
   return db.execute(query, [id]);
 };
 
-// PATCH attendance (true/false)
 const toggleAttendance = async (id, status) => {
-  const query = 'UPDATE registrations SET attendance = ? WHERE id = ?';
+  const query = 'UPDATE registrations SET attendance_status = ? WHERE id = ?';
   return db.execute(query, [status, id]);
 };
 

@@ -7,5 +7,6 @@ router.get('/:id', controller.getById);
 router.post('/', controller.create)
 router.put('/:id', controller.update);
 router.delete('/:id', controller.deleteById);
+router.patch('/:id/attendance', controller.toggleAttendanceById);
 
 module.exports = router;

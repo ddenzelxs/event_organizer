@@ -3,7 +3,6 @@ exports.up = function (knex) {
     table.increments('id').primary();
     table.string('name', 150).notNullable();
     table.date('date').notNullable();
-    table.time('time').notNullable();
     table.string('location', 200);
     table.string('poster_url', 255);
     table.integer('status').notNullable();

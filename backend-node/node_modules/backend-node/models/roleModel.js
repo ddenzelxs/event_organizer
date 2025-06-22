@@ -2,13 +2,13 @@ const db = require('../database/database')
 
 const getAllRole = async () => {
   const query = `
-          SELECT * FROM role`;
+    SELECT * FROM role`;
   return db.execute(query)
 }
 
 const getRoleById = async (id) => {
   const query = `
-        SELECT * FROM role WHERE id = ?`;
+    SELECT * FROM role WHERE id = ?`;
   return db.execute(query, [id]);
 }
 

@@ -46,11 +46,23 @@ const deleteById = async (req, res) => {
   }
 };
 
+const toggleAttendanceById = async (req, res) => {
+  try {
+    await toggleAttendance(req.params.id, req.body.attendance_status);
+    res.json({ message: 'Attendance status updated successfully' });
+  } catch (error) {
+    res.status(500).json({
+      message: 'Server Error',
+      serverMessage: error.message
+    });
+  }
+};
+
 module.exports = {
   getAll,
   getById,
   create,
   update,
   deleteById,
-  toggleAttendance
+  toggleAttendanceById
 };
