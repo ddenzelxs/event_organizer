@@ -1,39 +1,45 @@
 const db = require('../database/database');
 const bcrypt = require('bcryptjs');
 
+// Ambil semua user
 const getAllUsers = async () => {
     const query = `
         SELECT users.*
         FROM users
-        `;
+    `;
     return db.execute(query);
-}
+};
 
+// Ambil user berdasarkan ID
 const getUserById = async (id) => {
     const query = `
-        SELECT * FROM users WHERE id = ?`;
+        SELECT * FROM users WHERE id = ?
+    `;
     return db.execute(query, [id]);
-}
+};
 
+// Ambil user berdasarkan role
 const getUsersByRole = async (role_id) => {
     const query = `
         SELECT users.name, users.email, role.nama_role
         FROM users
         JOIN role ON users.role_id = role.id
         WHERE users.role_id = ?
-        `;
+    `;
     return db.execute(query, [role_id]);
-}
+};
 
+// Tambahkan user baru
 const insertUser = async (data) => {
     const hashedPassword = await bcrypt.hash(data.password, 8);
     const query = `
         INSERT INTO users (name, email, password, role_id, created_at, updated_at)
-        VALUES (?, ?, ? ,?, now(), now());
-        `
+        VALUES (?, ?, ?, ?, NOW(), NOW())
+    `;
     return db.execute(query, [data.name, data.email, hashedPassword, data.role_id]);
-}
+};
 
+// Update user berdasarkan ID
 const updateUser = async (id, data) => {
     let query = `
         UPDATE users
@@ -53,10 +59,19 @@ const updateUser = async (id, data) => {
     return db.execute(query, params);
 };
 
+// Ambil user berdasarkan username (name)
+const getUserByUsername = async (username) => {
+    const query = `
+        SELECT * FROM users WHERE name = ?
+    `;
+    return db.execute(query, [username]);
+};
+
 module.exports = {
     getAllUsers,
     getUserById,
     getUsersByRole,
     insertUser,
-    updateUser
+    updateUser,
+    getUserByUsername, // ✅ pastikan ini diexport
 };
