@@ -6,6 +6,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\StatisticsController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\ProfileController;
 
 
 Route::get('/', [EventController::class, 'guestIndex'])->name('guest.landing');
@@ -25,3 +26,8 @@ Route::post('/admin/users', [UsersController::class, 'store'])->name('admin.user
 Route::get('/admin/users/{id}/', [UsersController::class, 'edit'])->name('admin.users.edit');
 Route::put('/admin/users/{id}', [UsersController::class, 'update'])->name('admin.users.update');
 Route::get('/admin/{roleId}', [UsersController::class, 'listByRole'])->name('admin.users.byRole');
+
+//Profile
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+

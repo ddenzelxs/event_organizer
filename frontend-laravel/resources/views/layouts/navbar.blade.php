@@ -28,7 +28,7 @@
                             </div>
                         </div>
                         <div class="preview-item-content">
-                            <p class="preview-subject mb-1">Account</p>
+                            <p><a href="{{route('profile')}}" class="preview-subject mb-1">Account</a></p>
                         </div>
                     </a>
                     <!-- Logout -->
