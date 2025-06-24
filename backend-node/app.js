@@ -3,7 +3,10 @@ const express = require('express');
 const cors = require('cors');
 
 const app = express();
+
+// Middleware
 const authenticateToken = require('./middleware/auth');
+const authorizeRole = require('./middleware/authorizeRole'); // tambahkan ini
 
 // Import routes
 const authRoutes = require('./routes/auth');
@@ -20,18 +23,16 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Public route ac
+// Public route
 app.use('/api/auth', authRoutes);
 
-// Protected routes
-app.use('/api/roles', authenticateToken, roleRoutes);
-app.use('/api/users', authenticateToken, userRoutes);
-app.use('/api/events', authenticateToken, eventRoutes);
-app.use('/api/sessions', authenticateToken, sessionRoutes);
-app.use('/api/registrations', authenticateToken, registrationRoutes);
-app.use('/api/certificate', authenticateToken, certificateRoutes);
-
-
+// Protected routes dengan role-based authorization
+app.use('/api/roles', roleRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/events', eventRoutes);
+app.use('/api/sessions', sessionRoutes);
+app.use('/api/registrations', registrationRoutes);
+app.use('/api/certificate', certificateRoutes);
 
 app.listen(3000, () => {
   console.log('Server running on http://localhost:3000');

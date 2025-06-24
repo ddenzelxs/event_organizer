@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/usersController');
+const authenticateToken = require('../middleware/auth');
+const authorizeRole = require('../middleware/authorize');
 
-router.get('/', controller.getAll);
-router.get('/:id', controller.getById);
-router.get('/role/:role_id', controller.getByRole);
+router.get('/', authenticateToken, authorizeRole(2), controller.getAll);
+router.get('/:id', authenticateToken, authorizeRole(1,2), controller.getById);
+router.get('/role/:role_id', authenticateToken, authorizeRole(2), controller.getByRole);
 router.post('/', controller.create);
-router.put('/:id', controller.update);
+router.put('/:id', authenticateToken, authorizeRole(1), controller.update);
 
 module.exports = router;

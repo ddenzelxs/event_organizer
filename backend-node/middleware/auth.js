@@ -10,8 +10,8 @@ module.exports = (req, res, next) => {
   const token = authHeader.split(' ')[1];
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET); // pastikan .env berisi JWT_SECRET
-    req.user = decoded; // menyimpan payload token ke dalam req.user
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
     next();
   } catch (err) {
     return res.status(403).json({ message: 'Token tidak valid' });
