@@ -21,7 +21,7 @@ const getUserById = async (id) => {
 // Ambil user berdasarkan role
 const getUsersByRole = async (role_id) => {
     const query = `
-        SELECT users.name, users.email, role.nama_role
+        SELECT users.*, role.nama_role
         FROM users
         JOIN role ON users.role_id = role.id
         WHERE users.role_id = ?
@@ -62,17 +62,9 @@ const updateUser = async (id, data) => {
 // Ambil user berdasarkan username
 const getUserByUsername = async (username) => {
     const query = `
-        SELECT * FROM users WHERE name = ?
+        SELECT * FROM users WHERE username = ?
     `;
     return db.execute(query, [username]);
-};
-
-// Ambil user berdasarkan username ATAU email
-const getUserByUsernameOrEmail = async (identifier) => {
-    const query = `
-        SELECT * FROM users WHERE name = ? OR email = ?
-    `;
-    return db.execute(query, [identifier, identifier]);
 };
 
 module.exports = {
@@ -82,5 +74,4 @@ module.exports = {
     insertUser,
     updateUser,
     getUserByUsername,
-    getUserByUsernameOrEmail // ✅ Tambahan untuk login fleksibel
 };

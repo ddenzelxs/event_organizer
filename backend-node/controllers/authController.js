@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { getUserByUsernameOrEmail } = require('../models/usersModel'); // Gunakan yang lebih fleksibel
+const { getUserByUsername } = require('../models/usersModel'); // Gunakan yang lebih fleksibel
 
 const login = async (req, res) => {
   const { username, password } = req.body;
@@ -10,7 +10,7 @@ const login = async (req, res) => {
   }
 
   try {
-    const [users] = await getUserByUsernameOrEmail(username); // Bisa pakai username atau email
+    const [users] = await getUserByUsername(username); // Bisa pakai username atau email
     const user = users[0];
 
     if (!user) {

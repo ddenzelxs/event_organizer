@@ -10,7 +10,19 @@ class EventController extends Controller
     protected $baseUrl = 'http://localhost:3000/api/events';
 
     // Ambil semua event
-    public function index()
+    public function guestIndex()
+    {
+        $response = Http::get($this->baseUrl);
+
+        if ($response->successful()) {
+            $data = $response->json();
+            return view('welcome', ['events' => $data['data']]);
+        }
+
+        return back()->withErrors(['error' => 'Gagal mengambil data event.']);
+    }
+
+    public function authIndex()
     {
         $response = Http::get($this->baseUrl);
 
