@@ -59,12 +59,20 @@ const updateUser = async (id, data) => {
     return db.execute(query, params);
 };
 
-// Ambil user berdasarkan username (name)
+// Ambil user berdasarkan username
 const getUserByUsername = async (username) => {
     const query = `
         SELECT * FROM users WHERE name = ?
     `;
     return db.execute(query, [username]);
+};
+
+// Ambil user berdasarkan username ATAU email
+const getUserByUsernameOrEmail = async (identifier) => {
+    const query = `
+        SELECT * FROM users WHERE name = ? OR email = ?
+    `;
+    return db.execute(query, [identifier, identifier]);
 };
 
 module.exports = {
@@ -73,5 +81,6 @@ module.exports = {
     getUsersByRole,
     insertUser,
     updateUser,
-    getUserByUsername, // ✅ pastikan ini diexport
+    getUserByUsername,
+    getUserByUsernameOrEmail // ✅ Tambahan untuk login fleksibel
 };

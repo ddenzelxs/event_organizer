@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/roleController");
 const authenticateToken = require('../middleware/auth');
-const authorizeRole = require('../middleware/authorize');
+const authorizeRole = require('../middleware/authorizeRole');
 
 router.get("/", authenticateToken, authorizeRole(2), controller.getAll);
 router.get("/:id",authenticateToken, authorizeRole(2), controller.getById)
