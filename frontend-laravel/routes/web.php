@@ -27,7 +27,7 @@ Route::get('/admin/users/{id}/', [UsersController::class, 'edit'])->name('admin.
 Route::put('/admin/users/{id}', [UsersController::class, 'update'])->name('admin.users.update');
 Route::get('/admin/{roleId}', [UsersController::class, 'listByRole'])->name('admin.users.byRole');
 
-//Profile
-Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+// Profile
+Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-
+Route::get('/logout', [ProfileController::class, 'logout'])->name('logout');

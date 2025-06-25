@@ -12,7 +12,7 @@
         <div class="carousel-inner">
           @foreach ($events as $index => $event)
           <div class="carousel-item @if($index === 0) active @endif">
-            <img src="{{ asset('placeholder.jpg') }}" class="d-block w-100" alt="{{ $event['name'] }}"> 
+            <img src="{{ asset('placeholder.jpg') }}" class="d-block w-100" alt="{{ $event['name'] }}">
             <div class="carousel-caption d-none d-md-block bg-gradient-to-t from-black/60 via-black/30 to-transparent p-4 rounded">
               <h5 class="text-white text-xl font-semibold">{{ $event['name'] }}</h5>
               {{-- <p class="text-white">{{ $event['description'] }}</p> --}}

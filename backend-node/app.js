@@ -17,7 +17,6 @@ const sessionRoutes = require('./routes/eventSessions');
 const registrationRoutes = require('./routes/registrations');
 const certificateRoutes = require('./routes/cerificates');
 const statisticsRoutes = require('./routes/statistics');
-const profileRoutes = require('./routes/profile');
 
 app.use(cors({
   origin: 'http://localhost:5173',
@@ -36,7 +35,6 @@ app.use('/api/sessions', sessionRoutes);
 app.use('/api/registrations', registrationRoutes);
 app.use('/api/certificate', certificateRoutes);
 app.use('/api/statistics', statisticsRoutes);
-app.use('/api/profile/', profileRoutes);
 
 app.listen(3000, () => {
   console.log('Server running on http://localhost:3000');

@@ -41,6 +41,7 @@
                     <button type="submit" class="btn btn-primary btn-block enter-btn">Login</button>
                   </div>
                   <p class="sign-up mt-3">Don't have an Account?<a href="#"> Sign Up</a></p>
+                  <a href="{{ route('guest.landing')}}"><- Kembali</a>
                 </form>
               </div>
             </div>

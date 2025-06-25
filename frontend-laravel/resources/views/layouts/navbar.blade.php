@@ -21,18 +21,18 @@
                     aria-labelledby="profileDropdown">
                     <h6 class="p-3 mb-0">Profile</h6>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item preview-item">
+                    <a class="dropdown-item preview-item" href="{{ route('profile.edit') }}"">
                         <div class="preview-thumbnail">
                             <div class="preview-icon bg-dark rounded-circle">
                                 <i class="mdi mdi-account text-success"></i>
                             </div>
                         </div>
                         <div class="preview-item-content">
-                            <p><a href="{{route('profile')}}" class="preview-subject mb-1">Account</a></p>
+                            <p class="preview-subject mb-1">Account</p>
                         </div>
                     </a>
                     <!-- Logout -->
-                    <a class="dropdown-item preview-item">
+                    <a class="dropdown-item preview-item" href="{{ route('logout') }}">
                         <div class="preview-thumbnail">
                             <div class="preview-icon bg-dark rounded-circle">
                                 <i class="mdi mdi-logout text-danger"></i>

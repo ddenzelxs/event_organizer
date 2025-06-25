@@ -7,50 +7,57 @@ use Illuminate\Support\Facades\Http;
 
 class ProfileController extends Controller
 {
-    public function index()
-{
-    try {
-        $userId = session('user.id');
-        if (!$userId) {
-            abort(403, 'Belum login. Session user.id kosong');
+    private $baseUrl = 'http://localhost:3000/api/users';
+
+    public function edit()
+    {
+        $token = session('token');
+        $user = session('user');
+
+        if (!$token || !$user) {
+            return redirect()->route('login')->withErrors(['error' => 'Silakan login terlebih dahulu']);
         }
 
-        $response = Http::get('http://localhost:3000/api/profile/', [
-            'id' => $userId,
-        ]);
+        $response = Http::withToken($token)->get("{$this->baseUrl}/{$user['id']}");
 
         if (!$response->successful()) {
-            dd('Gagal ambil dari Node', $response->status(), $response->body());
+            return back()->withErrors(['error' => 'Gagal mengambil data user']);
         }
 
-        $user = $response->json();
-        return view('profile', compact('user'));
-
-    } catch (\Exception $e) {
-        dd('ERROR:', $e->getMessage(), $e->getTraceAsString());
+        $userData = $response->json()['data'][0]; // karena hasilnya array dalam array
+        return view('profile.edit', compact('userData'));
     }
-}
-
 
     public function update(Request $request)
     {
-        $data = [
-            'id'       => session('user.id'),
-            'name'     => $request->input('name'),
-            'username' => $request->input('username'),
-            'email'    => $request->input('email'),
-        ];
+        $token = session('token');
 
-        if ($request->filled('password')) {
-            $data['password'] = $request->input('password');
+        if (!$token) {
+            return redirect()->route('login')->withErrors(['error' => 'Silakan login terlebih dahulu']);
         }
 
-        $response = Http::put('http://localhost:3000/api/profile', $data);
+        $userId = session('user.id');
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->put("{$this->baseUrl}/{$userId}", [
+            'name'     => $request->input('name'),
+            'email'    => $request->input('email'),
+            'password' => $request->input('password'),
+            'role_id'  => $request->input('role_id'),
+        ]);
 
         if ($response->successful()) {
-            return redirect()->back()->with('success', 'Profil berhasil diupdate.');
-        } else {
-            return redirect()->back()->with('error', 'Gagal update profil: ' . $response->body());
+            return redirect()->route('admin.index')->with('success', 'User berhasil diperbarui.');
         }
+
+        return back()->withErrors(['error' => 'Gagal memperbarui user.'])->withInput();
+    }
+    
+    public function logout(Request $request)
+    {
+        session()->forget('token');
+        session()->forget('user');
+
+        return redirect()->route('login')->with('success', 'Berhasil logout.');
     }
 }
