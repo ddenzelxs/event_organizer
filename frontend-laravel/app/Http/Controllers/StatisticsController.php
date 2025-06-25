@@ -43,4 +43,21 @@ class StatisticsController extends Controller
 
         return view('admin.index', compact('eventBerjalan', 'eventSelesai', 'totalPengguna'));
     }
+
+    public function panitiaIndex()
+    {
+        $token = session('token');
+
+        if (!$token) {
+            return redirect()->route('login')->withErrors(['error' => 'Silakan login terlebih dahulu']);
+        }
+
+        $response = Http::withToken($token)->get('http://localhost:3000/api/statistics/committee/summary');
+        if ($response->successful()) {
+            $data = $response->json()['data'];
+            return view('committee.index', compact('data'));
+        }
+
+        return back()->withErrors(['error' => 'Gagal mengambil statistik event committee.']);
+    }
 }

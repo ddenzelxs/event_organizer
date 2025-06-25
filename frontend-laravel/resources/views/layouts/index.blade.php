@@ -27,7 +27,20 @@
 <body>
     <div class="container-scroller">
         @include('layouts.navbar')
-        @include('layouts.admin.sidebar')
+        @php
+            $role = session('user.role_id') ?? null;
+        @endphp
+
+        @if ($role === 2)
+            @include('layouts.admin.sidebar')
+        {{-- @elseif ($role === 3)
+            @include('layouts.finance.sidebar') --}}
+        @elseif ($role === 4)
+            @include('layouts.committee.sidebar')
+        {{-- @else
+            @include('layouts.default.sidebar') --}}
+        @endif
+
         <div class="container-fluid page-body-wrapper">
             <div class="main-panel">
                 <div class="content-wrapper">

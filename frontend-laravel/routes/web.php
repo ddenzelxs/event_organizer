@@ -17,7 +17,6 @@ Route::view('/login', 'login')->name('login');
 Route::view('/dashboard', 'dashboard')->name('dashboard');
 
 Route::get('/dashboard', [EventController::class, 'authIndex'])->name('dashboard');
-Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
 
 // Admin
 Route::get('/admin', [StatisticsController::class, 'adminIndex'])->name('admin.index');
@@ -31,3 +30,14 @@ Route::get('/admin/{roleId}', [UsersController::class, 'listByRole'])->name('adm
 Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 Route::get('/logout', [ProfileController::class, 'logout'])->name('logout');
+
+// Panitia
+Route::get('/committee', [StatisticsController::class, 'panitiaIndex'])->name('committee.index');
+Route::get('/events', [EventController::class, 'panitiaEventIndex'])->name('committee.events.index');
+Route::get('/events/create', [EventController::class, 'panitiaCreate'])->name('committee.events.create');
+Route::post('/events/create', [EventController::class, 'panitiaStore'])->name('committee.events.store');
+Route::get('/events/{eventId}', [EventController::class, 'panitiaShow'])->name('committee.events.show');
+
+Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
+Route::get('/events/{id}', [EventController::class, 'show'])->name('committee.events.show');
+Route::post('/events/{id}/sessions', [EventController::class, 'addSession'])->name('committee.sessions.store');

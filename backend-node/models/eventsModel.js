@@ -50,10 +50,18 @@ const deleteEvent = async (id) => {
   return db.execute(query, [id]);
 };
 
+const detailEvent = async (id) => {
+  const query = `SELECT * FROM event_sessions
+  JOIN events
+  WHERE events.id = ?`
+  return db.execute(query, [id])
+}
+
 module.exports = {
   getAllEvents,
   getEventById,
   createEvent,
   updateEvent,
-  deleteEvent
+  deleteEvent,
+  detailEvent
 };

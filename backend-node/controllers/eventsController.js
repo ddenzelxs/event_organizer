@@ -1,4 +1,4 @@
-const {getAllEvents, getEventById, createEvent, updateEvent, deleteEvent} = require('../models/eventsModel');
+const {getAllEvents, getEventById, createEvent, updateEvent, deleteEvent, detailEvent} = require('../models/eventsModel');
 
 const getAll = async (req, res) => {
   try {
@@ -45,10 +45,20 @@ const deleteById = async (req, res) => {
   }
 };
 
+const getDetail = async (req, res) => {
+  try {
+    const [events] = await detailEvent(req.params.id);
+    res.json({ message: 'GET Detail events success', data: events });
+  } catch (error) {
+    res.status(500).json({ message: 'Server Error', serverMessage: error.message});
+  }
+}
+
 module.exports = {
   getAll,
   getById,
   create,
   update,
-  deleteById
+  deleteById,
+  getDetail
 };

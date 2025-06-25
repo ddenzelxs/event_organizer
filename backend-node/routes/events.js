@@ -10,5 +10,5 @@ router.get('/:id', controller.getById);
 router.post('/', authenticateToken, authorizeRole(4), controller.create);
 router.put('/:id', authenticateToken, authorizeRole(4), controller.update);
 router.delete('/:id', authenticateToken, authorizeRole(4), controller.deleteById);
-
+router.get('/:id/sessions', authenticateToken, authorizeRole(3,4), controller.getDetail)
 module.exports = router;

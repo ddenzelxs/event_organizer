@@ -21,7 +21,7 @@
     <section class="text-center py-20 px-4">
       <h1 class="text-4xl md:text-5xl font-bold mb-6">Selamat Datang di EventApp</h1>
       <p class="text-lg mb-8 max-w-xl mx-auto text-gray-300">Kelola data Anda dengan mudah dan aman menggunakan platform kami.</p>
-      <a href="/register" class="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg hover:bg-blue-700">Daftar Sekarang</a>
+      <a href="{{route('register')}}" class="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg hover:bg-blue-700">Daftar Sekarang</a>
     </section>
 
     <!-- Carousel -->

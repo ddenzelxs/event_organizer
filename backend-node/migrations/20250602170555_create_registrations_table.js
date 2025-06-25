@@ -8,6 +8,7 @@ exports.up = function (knex) {
     table.timestamp('approved_at').nullable();
     table.string('qrcode', 255);
     table.boolean('attendance_status');
+    table.boolean('payment_status');
   });
 };
 exports.down = function (knex) {
