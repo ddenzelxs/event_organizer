@@ -33,10 +33,10 @@ const getUsersByRole = async (role_id) => {
 const insertUser = async (data) => {
     const hashedPassword = await bcrypt.hash(data.password, 8);
     const query = `
-        INSERT INTO users (name, email, password, role_id, created_at, updated_at)
-        VALUES (?, ?, ?, ?, NOW(), NOW())
+        INSERT INTO users (name, email, username, password, role_id, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, NOW(), NOW())
     `;
-    return db.execute(query, [data.name, data.email, hashedPassword, data.role_id]);
+    return db.execute(query, [data.name, data.email, data.username, hashedPassword, data.role_id]);
 };
 
 // Update user berdasarkan ID
