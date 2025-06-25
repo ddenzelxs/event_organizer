@@ -41,3 +41,7 @@ Route::get('/events/{eventId}', [EventController::class, 'panitiaShow'])->name('
 Route::get('/events/{id}', [EventController::class, 'show'])->name('events.show');
 Route::get('/events/{id}', [EventController::class, 'show'])->name('committee.events.show');
 Route::post('/events/{id}/sessions', [EventController::class, 'addSession'])->name('committee.sessions.store');
+
+// Register
+Route::get('/register', [LoginController::class, 'showRegisterForm'])->name('register');
+Route::post('/register', [LoginController::class, 'register'])->name('register.submit');
